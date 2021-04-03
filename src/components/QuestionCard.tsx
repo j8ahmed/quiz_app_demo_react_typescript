@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Controls from './Controls'
 import QuestionSet from './QuestionSet'
+import { randomize } from '../assets/utilities'
 const {log} = console
 const URL = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple"
 
@@ -72,19 +73,18 @@ const QuestionCard = () => {
             return {
                 id: id,
                 question: data.question,
-                options: [...data.incorrect_answers, data.correct_answer],
+                options: randomize([...data.incorrect_answers, data.correct_answer]),
                 correctAnswer: data.correct_answer,
             }
         })
     }
 
     useEffect(()=>{
-        log(score)
-        
+        log("Rerendered")
     })
 
     if(status === QuizStatus.NOT_STARTED){
-        return <button onClick={getQuiz} >Start Quiz</button>
+        return <button onClick={startQuiz} >Start Quiz</button>
     }
 
     if(status === QuizStatus.LOADING){
@@ -103,6 +103,7 @@ const QuestionCard = () => {
 
     return (
         <div className="question-card">
+            <h3>{`Score: ${score} / ${questionDeck.length}`}</h3>
             <QuestionSet 
                 questionState={status === QuizStatus.QUESTION_ANSWERED} 
                 selectAnswer={selectAnswer}
