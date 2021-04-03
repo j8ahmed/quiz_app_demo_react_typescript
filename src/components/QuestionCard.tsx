@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Controls from './Controls'
 import QuestionSet from './QuestionSet'
 const {log} = console
@@ -15,9 +15,10 @@ type Question = {
 }
 
 const QuestionCard = () => {
-    const [status, setStatus] = React.useState<QuizStatus>(QuizStatus.NOT_STARTED)
-    const [questionDeck, setQuestionDeck] = React.useState<Question[]>([]) 
-    const [question, setQuestion] = React.useState({
+    const [score, setScore] = useState(0)
+    const [status, setStatus] = useState<QuizStatus>(QuizStatus.NOT_STARTED)
+    const [questionDeck, setQuestionDeck] = useState<Question[]>([]) 
+    const [question, setQuestion] = useState({
         id: 0,
         question: "",
         options: [""],
@@ -52,6 +53,8 @@ const QuestionCard = () => {
     }
 
     const selectAnswer = (ans: string): void => {
+        const correct = ans === question.correctAnswer
+        setScore(curr => correct ? curr + 1 : curr)
         setStatus(QuizStatus.QUESTION_ANSWERED)
     }
 
@@ -71,7 +74,7 @@ const QuestionCard = () => {
     }
 
     useEffect(()=>{
-        log(status)
+        log(score)
         
     })
 
