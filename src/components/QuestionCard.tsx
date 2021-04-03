@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Controls from './Controls'
 import QuestionSet from './QuestionSet'
+import "../index.css"
 import { randomize } from '../assets/utilities'
 const {log} = console
 const URL = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple"
 
-enum QuizStatus { LOADING, LOADED, COMPLETE, NOT_STARTED, QUESTION_ANSWERED }
+export enum QuizStatus { LOADING, LOADED, COMPLETE, NOT_STARTED, QUESTION_ANSWERED }
 type Question = {
     category: string,
     correct_answer: string,
@@ -77,6 +78,7 @@ const QuestionCard = () => {
                 correctAnswer: data.correct_answer,
             }
         })
+        setStatus(QuizStatus.LOADED)
     }
 
     useEffect(()=>{
@@ -105,6 +107,7 @@ const QuestionCard = () => {
         <div className="question-card">
             <h3>{`Score: ${score} / ${questionDeck.length}`}</h3>
             <QuestionSet 
+                status={status}
                 questionState={status === QuizStatus.QUESTION_ANSWERED} 
                 selectAnswer={selectAnswer}
                 {...question}/>
