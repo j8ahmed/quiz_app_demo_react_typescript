@@ -52,6 +52,11 @@ const QuestionCard = () => {
         getQuiz()
     }
 
+    const restartQuiz = () => {
+        setScore(0)
+        getQuiz()
+    }
+
     const selectAnswer = (ans: string): void => {
         const correct = ans === question.correctAnswer
         setScore(curr => correct ? curr + 1 : curr)
@@ -80,6 +85,20 @@ const QuestionCard = () => {
 
     if(status === QuizStatus.NOT_STARTED){
         return <button onClick={getQuiz} >Start Quiz</button>
+    }
+
+    if(status === QuizStatus.LOADING){
+        return <h3>Loading...</h3>
+    }
+    
+    if(status === QuizStatus.QUESTION_ANSWERED && question.id === questionDeck.length - 1){
+        return (
+            <div>
+                <h2>End of Quiz</h2>
+                <h3>{`Score: ${score} / ${questionDeck.length}`}</h3>
+                <button onClick={restartQuiz}>Start Another</button>
+            </div>
+        )
     }
 
     return (
