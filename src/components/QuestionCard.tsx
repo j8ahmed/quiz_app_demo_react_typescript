@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import Controls from './Controls'
 import QuestionSet from './QuestionSet'
-
+const {log} = console
 const URL = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple"
 
-enum QuizState { LOADING, COMPLETE, NOT_STARTED, QUESTION_ANSWERED }
+enum QuizStatus { LOADING, LOADED, COMPLETE, NOT_STARTED, QUESTION_ANSWERED }
 type Question = {
     category: string,
     correct_answer: string,
@@ -15,10 +15,8 @@ type Question = {
 }
 
 const QuestionCard = () => {
-    const [quizState, setQuizState] = React.useState({
-        status: QuizState.NOT_STARTED
-    })
-    const [questionDeck, setQuestionDeck] = React.useState([] as Question[]) 
+    const [status, setStatus] = React.useState<QuizStatus>(QuizStatus.NOT_STARTED)
+    const [questionDeck, setQuestionDeck] = React.useState<Question[]>([]) 
     const [question, setQuestion] = React.useState({
         id: 0,
         question: "",
@@ -27,11 +25,9 @@ const QuestionCard = () => {
     })
 
     const getQuiz = async () => {
-        setQuizState( {status: QuizState.LOADING} )
         // Initialize Quiz with data from API.
         try{
             const data = await (await fetch(URL)).json()
-            console.log(data)
             setQuestionDeck(data.results)
 
             const Q1: Question = data.results[0]
@@ -41,24 +37,27 @@ const QuestionCard = () => {
                 options: [...Q1.incorrect_answers, Q1.correct_answer],
                 correctAnswer: Q1.correct_answer
             })
+
+            setStatus( QuizStatus.LOADED )
         }
         catch(e){
-            console.log(e)
+            console.log("Error in fetch API for Quiz data")
             throw e 
         }
     }
 
-    useEffect(() => {
+    const startQuiz = () => {
+        setStatus( QuizStatus.LOADING )
         getQuiz()
-    }, [])
+    }
 
     const selectAnswer = (ans: string): void => {
-        setQuizState({status: QuizState.QUESTION_ANSWERED})
+        setStatus(QuizStatus.QUESTION_ANSWERED)
     }
 
     const nextQuestion = () => {
-        //reset the quizState
-        setQuizState({status: QuizState.LOADING})
+        //reset the quizStatus
+        setStatus(QuizStatus.LOADING)
         setQuestion( q => {
             const id = q.id + 1
             const data = questionDeck[id]
@@ -71,14 +70,23 @@ const QuestionCard = () => {
         })
     }
 
+    useEffect(()=>{
+        log(status)
+        
+    })
+
+    if(status === QuizStatus.NOT_STARTED){
+        return <button onClick={getQuiz} >Start Quiz</button>
+    }
+
     return (
         <div className="question-card">
             <QuestionSet 
-                questionState={quizState.status === QuizState.QUESTION_ANSWERED} 
+                questionState={status === QuizStatus.QUESTION_ANSWERED} 
                 selectAnswer={selectAnswer}
                 {...question}/>
             <Controls 
-                isAnswered={quizState.status === QuizState.QUESTION_ANSWERED} 
+                isAnswered={status === QuizStatus.QUESTION_ANSWERED} 
                 nextExists={question.id + 2 <= questionDeck.length} 
                 next={nextQuestion}/>
         </div>
