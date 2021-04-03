@@ -1,6 +1,7 @@
 import React from 'react'
 import { QuizStatus } from './QuestionCard'
-// enum QuizState { LOADING, COMPLETE, NOT_STARTED, QUESTION_ANSWERED }
+import { question_load_anim } from '../assets/animations'
+
 type Question = {
     id: number,
     question: string,
@@ -17,8 +18,12 @@ type Props = Question & {
 const QuestionSet = ({id, question, options, correctAnswer, status, questionState, selectAnswer}: Props, context?: object) => {
     const [userAnswer, setUserAnswer] = React.useState<string>()
     
+    React.useEffect(()=> {
+        question_load_anim()
+    }, [id])
+
     return (
-        <div>
+        <div className="question-set">
             <h2>Question {id+1}</h2>
             <h3 className="question" dangerouslySetInnerHTML={{__html: question}}></h3>
             <ol type="A" className="options">
@@ -28,7 +33,7 @@ const QuestionSet = ({id, question, options, correctAnswer, status, questionStat
                     return(
                         <li key={i}>
                             <button 
-                             className={`${correct && "correct"} ${wrong && "wrong"}`}
+                             className={`${correct ? "correct": ""} ${wrong ? "wrong" : ""}`}
                              disabled={questionState}
                              dangerouslySetInnerHTML={{__html: option}}
                              onClick={() => {setUserAnswer(option); selectAnswer(option)}} 
