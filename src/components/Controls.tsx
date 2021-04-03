@@ -3,14 +3,16 @@ import React from 'react'
 type Props = {
     isAnswered: boolean,
     nextExists: boolean,
-    next: () => void
+    next: () => void,
+    end: () => void,
 }
 
-const Controls = ({ isAnswered, nextExists, next }:Props) => {
+const Controls = ({ isAnswered, nextExists, next, end }:Props) => {
     return (
-        <div>
-            {isAnswered && nextExists && <button onClick={next}>Next Question</button>}
-        </div>
+        <>
+            {isAnswered && nextExists && <button className="next-btn" onClick={next}>Next Question</button>}
+            {isAnswered && !nextExists && <button className="next-btn" onClick={end}>End Quiz</button>}
+        </>
     )
 }
 

@@ -16,29 +16,27 @@ type Props = Question & {
 
 const QuestionSet = ({id, question, options, correctAnswer, status, questionState, selectAnswer}: Props, context?: object) => {
     const [userAnswer, setUserAnswer] = React.useState<string>()
-
-    React.useEffect(()=> {
-        console.log(userAnswer)
-    })
+    
     return (
         <div>
             <h2>Question {id+1}</h2>
-            <h3 dangerouslySetInnerHTML={{__html: question}}></h3>
-            <ul>
+            <h3 className="question" dangerouslySetInnerHTML={{__html: question}}></h3>
+            <ol type="A" className="options">
                 {options.map((option, i) => {
                     const correct = option === correctAnswer && QuizStatus.QUESTION_ANSWERED === status
                     const wrong = option === userAnswer && QuizStatus.QUESTION_ANSWERED === status
                     return(
-                        <li key={i} className={`${correct && "correct"} ${wrong && "wrong"}`}>
+                        <li key={i}>
                             <button 
+                             className={`${correct && "correct"} ${wrong && "wrong"}`}
                              disabled={questionState}
                              dangerouslySetInnerHTML={{__html: option}}
-                             onClick={() => ( setUserAnswer(option), selectAnswer(option) )} 
+                             onClick={() => {setUserAnswer(option); selectAnswer(option)}} 
                              ></button>
                         </li>
                     )
                 })}
-            </ul>
+            </ol>
         </div>
     )
 }
