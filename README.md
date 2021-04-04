@@ -1,8 +1,26 @@
-# Getting Started with Create React App
+# Quiz App - React, TypeScript, GSAP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was built with:
+- [React](https://reactjs.org)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Greensock](https://https://greensock.com/) (for the animations) 
+- Set up with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+<br/>
+
+### References
+
+- Built with inspiration and tips from a [freeCodeCamp tutorial](https://www.youtube.com/watch?v=F2JCjVSZlG0) on YouTube.
+
+- Quiz data taken from [Open Trivia Database](https://opentdb.com/)
+
+<br/>
+<br/>
+<br/>
+
+---
+
+## Available Scripts based on **create-react-app**
 
 In the project directory, you can run:
 
