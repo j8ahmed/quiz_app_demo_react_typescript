@@ -10,24 +10,21 @@ type Props = {
 }
 
 const Controls = ({ isAnswered, nextExists, next, end }:Props) => {
-
-    const changeQuestion = () => {
+    const text = isAnswered && nextExists ? "Next Question" : "End Quiz" 
+    const change = () => {
         const tl = question_remove_anim()
         tl.add(() => {
-            next()
-        }, ">")
-    }
-    const endQuiz = () => {
-        const tl = question_remove_anim()
-        tl.add(() => {
-            end()
+            if(isAnswered && nextExists) next()
+            else end()
         }, ">")
     }
 
     return (
         <>
-            {isAnswered && nextExists && <button className="next-btn" onClick={changeQuestion}>Next Question</button>}
-            {isAnswered && !nextExists && <button className="next-btn" onClick={endQuiz}>End Quiz</button>}
+            <button 
+            className="next-btn" 
+            onClick={change}
+            style={{visibility: isAnswered ? "visible" : "hidden"}}>{text}</button>
         </>
     )
 }
