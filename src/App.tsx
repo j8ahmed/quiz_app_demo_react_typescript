@@ -13,7 +13,7 @@ function App() {
       <h1>Quiz App</h1>
       <QuestionCard />
       <footer>
-        Built by Jamal J8
+        <a className="portfolio-link" href="https://portfolio.j8ahmed.com">Built by Jamal J8</a>
       </footer>
     </>
   );
