@@ -15,8 +15,6 @@ This project was built with:
 - Quiz data taken from [Open Trivia Database](https://opentdb.com/)
 
 <br/>
-<br/>
-<br/>
 
 ---
 
