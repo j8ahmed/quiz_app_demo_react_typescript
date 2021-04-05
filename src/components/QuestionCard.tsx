@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Controls from './Controls'
 import QuestionSet from './QuestionSet'
 import "../index.css"
 import { randomize } from '../assets/utilities'
-// const {log} = console
-const URL = "https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=multiple"
+import { fetchQuiz } from '../API/trivia_api'
+
 
 export enum QuizStatus { LOADING, LOADED, COMPLETE, NOT_STARTED, QUESTION_ANSWERED, END_QUIZ }
 type Question = {
@@ -30,7 +30,7 @@ const QuestionCard = () => {
     const getQuiz = async () => {
         // Initialize Quiz with data from API.
         try{
-            const data = await (await fetch(URL)).json()
+            const data = await fetchQuiz()
             setQuestionDeck(data.results)
             const i = 0
             const Q1: Question = data.results[i]
