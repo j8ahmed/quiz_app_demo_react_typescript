@@ -1,9 +1,9 @@
-import { useState } from 'react'
-import Controls from './Controls'
-import QuestionSet from './QuestionSet'
 import "../index.css"
+import { useState } from 'react'
 import { randomize } from '../assets/utilities'
 import { fetchQuiz } from '../API/trivia_api'
+import Controls from './Controls'
+import QuestionSet from './QuestionSet'
 
 
 export enum QuizStatus { LOADING, LOADED, COMPLETE, NOT_STARTED, QUESTION_ANSWERED, END_QUIZ }
@@ -84,39 +84,47 @@ const QuestionCard = () => {
 
     const endQuiz = () => setStatus( QuizStatus.END_QUIZ )
 
-    if(status === QuizStatus.NOT_STARTED){
-        return <div className="question-card"><button className="start-btn" onClick={startQuiz} >Start Quiz</button></div>
-    }
+    switch(status){
+        case QuizStatus.NOT_STARTED:
+            return (
+                <div className="question-card">
+                    <button className="start-btn" onClick={startQuiz}>Start Quiz</button>
+                </div>
+            )
 
-    if(status === QuizStatus.LOADING){
-        return <div className="question-card"><h3>Loading...</h3></div>
-    }
-    
-    if(status === QuizStatus.END_QUIZ){
-        return (
-            <div className="question-card">
-                <h2>End of Quiz</h2>
-                <h3>{`Score:   ${score} / ${questionDeck.length}`}</h3>
-                <button onClick={restartQuiz} className="start-btn">Start Another</button>
-            </div>
-        )
-    }
+        case QuizStatus.LOADING:
+            return (
+                <div className="question-card">
+                    <h3>Loading...</h3>
+                </div>
+            )
+            
+        case QuizStatus.END_QUIZ:
+            return (
+                <div className="question-card">
+                    <h2>End of Quiz</h2>
+                    <h3>{`Score:   ${score} / ${questionDeck.length}`}</h3>
+                    <button onClick={restartQuiz} className="start-btn">Start Another</button>
+                </div>
+            )
 
-    return (
-        <div className="question-card">
-            <h3 className="score">{`Score: ${score}`}</h3>
-            <QuestionSet 
-                status={status}
-                questionState={status === QuizStatus.QUESTION_ANSWERED} 
-                selectAnswer={selectAnswer}
-                {...question}/>
-            <Controls 
-                isAnswered={status === QuizStatus.QUESTION_ANSWERED} 
-                nextExists={question.id + 2 <= questionDeck.length} 
-                next={nextQuestion}
-                end={endQuiz}/>
-        </div>
-    )
+        default:
+            return (
+                <div className="question-card">
+                    <h3 className="score">{`Score: ${score}`}</h3>
+                    <QuestionSet 
+                        status={status}
+                        questionState={status === QuizStatus.QUESTION_ANSWERED} 
+                        selectAnswer={selectAnswer}
+                        {...question}/>
+                    <Controls 
+                        isAnswered={status === QuizStatus.QUESTION_ANSWERED} 
+                        nextExists={question.id + 2 <= questionDeck.length} 
+                        next={nextQuestion}
+                        end={endQuiz}/>
+                </div>
+            )
+    }    
 }
 
 export default QuestionCard
