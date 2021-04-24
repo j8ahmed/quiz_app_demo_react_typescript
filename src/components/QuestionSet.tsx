@@ -24,7 +24,7 @@ const QuestionSet = ({id, question, options, correctAnswer, status, questionStat
 
     return (
         <div className="question-set">
-            <h2>Question {id+1}</h2>
+            <h2 id="question-number">Question {id+1}</h2>
             <h3 className="question" dangerouslySetInnerHTML={{__html: question}}></h3>
             <ol type="A" className="options">
                 {options.map((option, i) => {
