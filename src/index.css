@@ -66,8 +66,14 @@ h1{
   width: 100%;
 }
 .score{
+  display: flex;
+  align-items: center;
   text-align: right;
-  padding: 0 1rem;
+  font-size: 2rem;
+}
+#score-value{
+  font-size: 1.5em;
+  margin-left: 1rem;
 }
 .question{
   font-weight: normal;
@@ -117,7 +123,7 @@ h1{
 
 footer{
   align-self: flex-end;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .portfolio-link{
@@ -127,4 +133,30 @@ footer{
 }
 .portfolio-link:hover{
   color: #FFCC00;
+}
+
+.question-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Countdown Timer */
+#svg{
+  width: 100px;
+  height: 100px;
+}
+#svg circle {
+  transition: stroke-dashoffset 1s linear;
+  stroke: rgba(102,102,102,0.7);
+  stroke-width: 1em;
+}
+#svg #bar {
+  stroke: #fff;
+}
+
+#bar{
+  transform-origin: center;
+  transform: rotate(-90deg);
 }

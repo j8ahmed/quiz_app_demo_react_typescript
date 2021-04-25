@@ -4,6 +4,7 @@ import { randomize } from '../assets/utilities'
 import { fetchQuiz } from '../API/trivia_api'
 import Controls from './Controls'
 import QuestionSet from './QuestionSet'
+import QuestionTimer from './QuestionTimer'
 
 
 export enum QuizStatus { LOADING, LOADED, COMPLETE, NOT_STARTED, QUESTION_ANSWERED, END_QUIZ }
@@ -111,7 +112,17 @@ const QuestionCard = () => {
         default:
             return (
                 <div className="question-card">
-                    <h3 className="score">{`Score: ${score}`}</h3>
+                    <div className='question-header'>
+                        <h3 className="score">
+                            Score:
+                            <span id='score-value'>{score}</span>
+                        </h3>
+                        <QuestionTimer 
+                            id={question.id} 
+                            selectAnswer={selectAnswer}
+                            unanswered={status === QuizStatus.LOADED}
+                        />
+                    </div>
                     <QuestionSet 
                         status={status}
                         questionState={status === QuizStatus.QUESTION_ANSWERED} 
