@@ -143,9 +143,23 @@ footer{
 }
 
 /* Countdown Timer */
+.timer-container{
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#time, #svg{
+  position: absolute;
+}
 #svg{
   width: 100px;
   height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #svg circle {
   transition: stroke-dashoffset 1s linear;
@@ -154,6 +168,12 @@ footer{
 }
 #svg #bar {
   stroke: #fff;
+}
+
+#time{
+ text-align: center; 
+ justify-self: center;
+ align-self: center;
 }
 
 #bar{
