@@ -1,5 +1,7 @@
 # Quiz App - React, TypeScript, GSAP
 
+[Live Website](https://j8ahmed-react-quiz-app.netlify.app/)
+
 This project was built with:
 - [React](https://reactjs.org)
 - [TypeScript](https://www.typescriptlang.org/)
